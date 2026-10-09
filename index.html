@@ -1,0 +1,1578 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Nolan Ford is an Information Systems student who builds practical data, analytics, and software solutions.">
+  <meta name="theme-color" content="#34414d">
+  <link rel="icon" href="data:,">
+  <title>Nolan Ford | Information Systems Portfolio</title>
+  <!-- Adds the .js class only when JavaScript is available. This keeps reveal effects optional. -->
+  <script>document.documentElement.classList.add('js');</script>
+
+  <!--
+    ============================================================================
+    PORTFOLIO CODE MAP
+    ============================================================================
+
+    WHERE TO EDIT CONTENT
+    - Header and navigation: search for "SITE HEADER AND NAVIGATION"
+    - Opening screen and metric card: search for "HERO SECTION"
+    - Project cards and future project links: search for "PROJECTS SECTION"
+    - Work history: search for "EXPERIENCE SECTION"
+    - Education and skills: search for "ABOUT SECTION"
+    - Email, phone, LinkedIn, GitHub, and résumé links: search for "CONTACT FOOTER"
+
+    HOW BUTTONS AND PAGE JUMPS WORK
+    - href="#projects" jumps to the element with id="projects".
+    - href="#experience" jumps to id="experience".
+    - href="#about" jumps to id="about".
+    - href="#top" returns to the opening hero section.
+    - href="mailto:..." opens the visitor's email application.
+    - href="tel:..." opens the visitor's phone application when supported.
+    - Full https:// links open external websites such as LinkedIn.
+
+    PLACEHOLDERS
+    - Search for "EDIT:" to find future links and details.
+    - Placeholder links are inside HTML comments, so visitors cannot see them.
+    - Remove the surrounding comment markers only after replacing placeholder text.
+
+    NAMING STYLE
+    - JavaScript variables, objects, and functions use PascalCase as requested.
+    - CSS design tokens also use PascalCase, for example the Teal token.
+    - HTML classes and page-jump ids use kebab-case, the standard readable format
+      for selectors and URL anchors such as .project-card and #projects.
+
+    This is one dependency-free file and can be uploaded directly to GitHub Pages.
+  -->
+
+  <style>
+    /* ------------------------------------------------------------------------
+       01. DESIGN TOKENS
+       Change the site's palette, shadows, corner sizes, and maximum width here.
+       Every visual section below reuses these named values for consistency.
+       ------------------------------------------------------------------------ */
+    :root {
+      --Ink: #2e3943;
+      --InkSoft: #5e6a74;
+      --Paper: #fbfcfb;
+      --Card: rgba(255, 255, 255, 0.92);
+      --Line: rgba(52, 65, 77, 0.14);
+      --Slate: #34414d;
+      --Teal: #178781;
+      --TealDark: #0f6f6a;
+      --TealBright: #50c7bd;
+      --TealSoft: #c8f2ee;
+      --White: #ffffff;
+      --Shadow: 0 24px 70px rgba(52, 65, 77, 0.11);
+      --RadiusMedium: 24px;
+      --RadiusLarge: 36px;
+      --ContentWidth: 1180px;
+    }
+
+    /* ------------------------------------------------------------------------
+       02. BASE STYLES
+       Global sizing, typography, page background, links, and keyboard focus.
+       ------------------------------------------------------------------------ */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 92px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--Ink);
+      background:
+        radial-gradient(circle at 8% 2%, rgba(80, 199, 189, 0.12), transparent 24rem),
+        radial-gradient(circle at 90% 16%, rgba(23, 135, 129, 0.08), transparent 30rem),
+        var(--Paper);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      pointer-events: none;
+      background-image: radial-gradient(rgba(52, 65, 77, 0.05) 0.7px, transparent 0.7px);
+      background-size: 20px 20px;
+      mask-image: linear-gradient(to bottom, black, transparent 78%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--TealDark);
+      outline-offset: 4px;
+    }
+
+    .contact-shell :focus-visible,
+    .skills-panel :focus-visible,
+    .signal-card :focus-visible,
+    .project-card.featured :focus-visible,
+    .skip-link:focus-visible {
+      outline-color: var(--TealBright);
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 200;
+      padding: 10px 16px;
+      color: var(--White);
+      background: var(--Slate);
+      border-radius: 999px;
+      transform: translateY(-160%);
+      transition: transform 160ms ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    /* ------------------------------------------------------------------------
+       03. SITE HEADER AND NAVIGATION
+       The header becomes translucent after scrolling. The mobile button toggles
+       the .is-open class on #nav-links in the JavaScript section at the bottom.
+       ------------------------------------------------------------------------ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid transparent;
+      transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .site-header.is-scrolled {
+      background: rgba(251, 252, 251, 0.92);
+      border-color: var(--Line);
+      box-shadow: 0 10px 30px rgba(52, 65, 77, 0.05);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav {
+      width: min(calc(100% - 40px), var(--ContentWidth));
+      min-height: 78px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.87rem;
+      font-weight: 760;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      color: var(--Slate);
+      background: var(--TealBright);
+      border: 1px solid rgba(52, 65, 77, 0.15);
+      border-radius: 50%;
+      font-size: 0.83rem;
+      letter-spacing: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: inline-flex;
+      padding: 9px 12px;
+      color: var(--InkSoft);
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 650;
+    }
+
+    .nav-links a:hover {
+      color: var(--Ink);
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .nav-cta {
+      margin-left: 4px;
+      color: var(--White) !important;
+      background: var(--Slate) !important;
+    }
+
+    .nav-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      color: var(--Ink);
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid var(--Line);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    main,
+    footer {
+      position: relative;
+    }
+
+    /* ------------------------------------------------------------------------
+       04. SHARED PAGE LAYOUT
+       .section controls the common page width and vertical whitespace.
+       ------------------------------------------------------------------------ */
+    .section {
+      width: min(calc(100% - 40px), var(--ContentWidth));
+      margin: 0 auto;
+      padding: 124px 0;
+    }
+
+    /* ------------------------------------------------------------------------
+       05. HERO SECTION
+       Two-column opening layout: introduction on the left, metrics on the right.
+       ------------------------------------------------------------------------ */
+    .hero {
+      min-height: calc(100svh - 78px);
+      padding-top: clamp(72px, 11vh, 128px);
+      padding-bottom: 92px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(310px, 0.75fr);
+      align-items: center;
+      gap: clamp(44px, 7vw, 96px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 22px;
+      color: var(--TealDark);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 9px;
+      height: 9px;
+      content: "";
+      background: var(--TealBright);
+      border: 2px solid var(--Ink);
+      border-radius: 50%;
+      box-shadow: 0 0 0 5px rgba(80, 199, 189, 0.22);
+    }
+
+    .hero h1,
+    .section-title,
+    .project-card h3,
+    .about-copy h2,
+    .contact h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 520;
+      letter-spacing: -0.035em;
+      line-height: 1.02;
+    }
+
+    .hero h1 {
+      max-width: 760px;
+      margin: 0;
+      color: var(--Slate);
+      font-size: clamp(4rem, 9.3vw, 8.2rem);
+    }
+
+    .hero h1 span {
+      display: block;
+      color: var(--Teal);
+      font-size: 0.36em;
+      font-family: Inter, ui-sans-serif, sans-serif;
+      font-weight: 770;
+      letter-spacing: -0.02em;
+      line-height: 1.18;
+    }
+
+    .hero-intro {
+      max-width: 690px;
+      margin: 26px 0 0;
+      color: var(--InkSoft);
+      font-size: clamp(1.06rem, 1.7vw, 1.3rem);
+    }
+
+    .hero-intro strong {
+      color: var(--Ink);
+      font-weight: 760;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .button {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 20px;
+      border: 1px solid var(--Line);
+      border-radius: 999px;
+      font-weight: 760;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      color: var(--White);
+      background: var(--Slate);
+      border-color: var(--Slate);
+      box-shadow: 0 12px 30px rgba(52, 65, 77, 0.17);
+    }
+
+    .button-secondary {
+      color: var(--Ink);
+      background: rgba(255, 255, 255, 0.56);
+    }
+
+    .button svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 22px;
+      margin-top: 26px;
+      color: var(--InkSoft);
+      font-size: 0.9rem;
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-meta span::before {
+      width: 5px;
+      height: 5px;
+      content: "";
+      background: var(--Teal);
+      border-radius: 50%;
+    }
+
+    /* Metric card inside the hero. The first and last metrics span both columns. */
+    .signal-card {
+      position: relative;
+      padding: 28px;
+      color: var(--White);
+      background: var(--Slate);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--RadiusLarge);
+      box-shadow: var(--Shadow);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .signal-card::before {
+      position: absolute;
+      right: -40px;
+      bottom: -60px;
+      z-index: -1;
+      width: 240px;
+      height: 240px;
+      content: "";
+      background: radial-gradient(circle, rgba(80, 199, 189, 0.24), transparent 66%);
+      border-radius: 50%;
+    }
+
+    .signal-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 0.76rem;
+      font-weight: 760;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--TealSoft);
+    }
+
+    .status::before {
+      width: 8px;
+      height: 8px;
+      content: "";
+      background: var(--TealBright);
+      border-radius: 50%;
+      box-shadow: 0 0 0 5px rgba(80, 199, 189, 0.13);
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      margin-top: 22px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .signal-item {
+      min-height: 140px;
+      padding: 20px;
+      background: rgba(43, 54, 64, 0.94);
+    }
+
+    .signal-item:first-child,
+    .signal-item:last-child {
+      grid-column: 1 / -1;
+      min-height: 120px;
+    }
+
+    .signal-item:first-child .signal-number {
+      font-size: clamp(3.4rem, 6vw, 5rem);
+    }
+
+    .signal-number {
+      display: block;
+      color: var(--TealBright);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      letter-spacing: -0.06em;
+      line-height: 1;
+    }
+
+    .signal-label {
+      display: block;
+      margin-top: 9px;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .signal-footer {
+      margin: 20px 2px 0;
+      color: rgba(255, 255, 255, 0.64);
+      font-size: 0.84rem;
+    }
+
+    /* ------------------------------------------------------------------------
+       06. REUSABLE SECTION HEADINGS
+       Used above Projects, Experience, About, and Contact.
+       ------------------------------------------------------------------------ */
+    .section-kicker {
+      margin: 0 0 14px;
+      color: var(--TealDark);
+      font-size: 0.74rem;
+      font-weight: 850;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.68fr);
+      align-items: end;
+      gap: 48px;
+      margin-bottom: 56px;
+    }
+
+    .section-title {
+      margin: 0;
+      color: var(--Slate);
+      font-size: clamp(2.8rem, 6vw, 5.8rem);
+    }
+
+    .section-description {
+      margin: 0 0 4px;
+      color: var(--InkSoft);
+      font-size: 1.03rem;
+    }
+
+    /* ------------------------------------------------------------------------
+       07. PROJECTS SECTION
+       Twelve-column grid. Card widths collapse to one column on smaller screens.
+       ------------------------------------------------------------------------ */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      position: relative;
+      min-height: 452px;
+      padding: clamp(30px, 4vw, 46px);
+      display: flex;
+      flex-direction: column;
+      background: var(--Card);
+      border: 1px solid var(--Line);
+      border-radius: var(--RadiusMedium);
+      box-shadow: 0 12px 38px rgba(52, 65, 77, 0.05);
+      overflow: hidden;
+      transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(23, 135, 129, 0.36);
+      box-shadow: 0 24px 60px rgba(52, 65, 77, 0.09);
+    }
+
+    .project-card.featured {
+      grid-column: span 7;
+      color: var(--White);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.03), transparent 50%),
+        var(--Slate);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .project-card:nth-child(2) {
+      grid-column: span 5;
+    }
+
+    .project-card:nth-child(3),
+    .project-card:nth-child(4) {
+      grid-column: span 6;
+    }
+
+    .project-card.featured::after {
+      position: absolute;
+      top: -150px;
+      right: -130px;
+      width: 350px;
+      height: 350px;
+      content: "";
+      background: radial-gradient(circle, rgba(80, 199, 189, 0.2), transparent 68%);
+      border-radius: 50%;
+    }
+
+    .project-meta {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 56px;
+    }
+
+    .project-number,
+    .project-status {
+      color: var(--InkSoft);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .featured .project-number,
+    .featured .project-status {
+      color: rgba(255, 255, 255, 0.58);
+    }
+
+    .project-status {
+      padding: 7px 10px;
+      background: rgba(23, 135, 129, 0.09);
+      border: 1px solid rgba(23, 135, 129, 0.17);
+      border-radius: 999px;
+      letter-spacing: 0.08em;
+    }
+
+    .featured .project-status {
+      color: var(--TealSoft);
+      background: rgba(80, 199, 189, 0.11);
+      border-color: rgba(80, 199, 189, 0.22);
+    }
+
+    .project-card h3 {
+      position: relative;
+      z-index: 1;
+      max-width: 560px;
+      margin: auto 0 18px;
+      font-size: clamp(2.15rem, 4.4vw, 4.7rem);
+    }
+
+    .project-card:not(.featured) h3 {
+      font-size: clamp(2.05rem, 3.5vw, 3.45rem);
+    }
+
+    .project-summary {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      margin: 0;
+      color: var(--InkSoft);
+      font-size: 0.97rem;
+    }
+
+    .featured .project-summary {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .project-bottom {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 22px;
+      margin-top: 34px;
+      padding-top: 22px;
+      border-top: 1px solid var(--Line);
+    }
+
+    .featured .project-bottom {
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .stack li {
+      padding: 5px 9px;
+      color: var(--InkSoft);
+      background: rgba(255, 255, 255, 0.54);
+      border: 1px solid var(--Line);
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 730;
+    }
+
+    .featured .stack li {
+      color: rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.13);
+    }
+
+    .project-outcome {
+      color: var(--TealDark);
+      font-size: 0.76rem;
+      font-weight: 840;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .featured .project-outcome {
+      color: var(--TealBright);
+    }
+
+    /* ------------------------------------------------------------------------
+       08. EXPERIENCE SECTION
+       Timeline rows keep dates separate from role descriptions on wide screens.
+       ------------------------------------------------------------------------ */
+    .experience-wrap {
+      padding: clamp(34px, 7vw, 72px);
+      background: rgba(255, 255, 255, 0.54);
+      border: 1px solid var(--Line);
+      border-radius: var(--RadiusLarge);
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .role {
+      display: grid;
+      grid-template-columns: 210px minmax(0, 1fr);
+      gap: clamp(32px, 6vw, 88px);
+      padding: 38px 0;
+      border-top: 1px solid var(--Line);
+    }
+
+    .role:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .role:last-child {
+      padding-bottom: 0;
+    }
+
+    .role-date {
+      color: var(--TealDark);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .role h3 {
+      margin: 0;
+      color: var(--Slate);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      font-weight: 520;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+    }
+
+    .role-org {
+      display: block;
+      margin-top: 8px;
+      color: var(--InkSoft);
+      font-size: 0.92rem;
+      font-weight: 650;
+    }
+
+    .role ul {
+      max-width: 750px;
+      margin: 22px 0 0;
+      padding-left: 19px;
+      color: var(--InkSoft);
+    }
+
+    .role li + li {
+      margin-top: 10px;
+    }
+
+    .role li::marker {
+      color: var(--Teal);
+    }
+
+    /* ------------------------------------------------------------------------
+       09. ABOUT SECTION
+       Biography and education on the left; sticky skills panel on the right.
+       ------------------------------------------------------------------------ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.86fr);
+      gap: clamp(56px, 9vw, 124px);
+      align-items: start;
+    }
+
+    .about-copy h2 {
+      max-width: 680px;
+      margin: 0 0 28px;
+      color: var(--Slate);
+      font-size: clamp(2.7rem, 5.6vw, 5.1rem);
+    }
+
+    .about-copy p {
+      max-width: 690px;
+      margin: 0;
+      color: var(--InkSoft);
+      font-size: 1.05rem;
+    }
+
+    .about-copy p + p {
+      margin-top: 18px;
+    }
+
+    .education {
+      margin-top: 34px;
+      padding-top: 28px;
+      border-top: 1px solid var(--Line);
+    }
+
+    .education strong {
+      display: block;
+      color: var(--Slate);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.35rem;
+      font-weight: 520;
+    }
+
+    .education span {
+      display: block;
+      margin-top: 6px;
+      color: var(--InkSoft);
+      font-size: 0.92rem;
+    }
+
+    .skills-panel {
+      position: sticky;
+      top: 112px;
+      padding: 30px;
+      color: var(--White);
+      background: var(--TealDark);
+      border-radius: var(--RadiusMedium);
+      box-shadow: var(--Shadow);
+    }
+
+    .skills-panel h3 {
+      margin: 0 0 24px;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .skill-group {
+      padding: 20px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .skill-group:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .skill-group:last-child {
+      padding-bottom: 0;
+    }
+
+    .skill-group strong {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--TealSoft);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .skill-group p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.94rem;
+    }
+
+    /* ------------------------------------------------------------------------
+       10. CONTACT FOOTER
+       Contact links and the final footer line. Future links live as commented
+       placeholders in the matching HTML section below.
+       ------------------------------------------------------------------------ */
+    .contact-shell {
+      width: min(calc(100% - 40px), var(--ContentWidth));
+      margin: 26px auto 50px;
+      padding: clamp(44px, 8vw, 94px);
+      color: var(--White);
+      background:
+        radial-gradient(circle at 88% 18%, rgba(80, 199, 189, 0.18), transparent 24rem),
+        var(--Slate);
+      border-radius: var(--RadiusLarge);
+      box-shadow: var(--Shadow);
+    }
+
+    .contact {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.55fr);
+      gap: clamp(38px, 8vw, 110px);
+      align-items: end;
+    }
+
+    .contact .section-kicker {
+      color: var(--TealBright);
+    }
+
+    .contact h2 {
+      max-width: 700px;
+      margin: 0;
+      font-size: clamp(3.2rem, 7.5vw, 7rem);
+    }
+
+    .contact-copy {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .contact-copy p {
+      margin: 0 0 24px;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .contact-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.32);
+      font-weight: 720;
+    }
+
+    .contact-links a:hover {
+      color: var(--TealBright);
+      border-color: var(--TealBright);
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-top: 70px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 0.82rem;
+    }
+
+    /* ------------------------------------------------------------------------
+       11. OPTIONAL REVEAL EFFECT
+       These rules activate only when JavaScript adds .js to the <html> element.
+       Without JavaScript, all content remains visible.
+       ------------------------------------------------------------------------ */
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 600ms ease, transform 600ms ease;
+    }
+
+    .js .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ------------------------------------------------------------------------
+       12. ACCESSIBILITY AND RESPONSIVE BREAKPOINTS
+       Reduced motion removes animation. Width breakpoints simplify the layout.
+       ------------------------------------------------------------------------ */
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+
+      .js .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .section-heading,
+      .about-grid,
+      .contact {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .signal-card {
+        max-width: 620px;
+      }
+
+      .section-heading {
+        gap: 20px;
+      }
+
+      .project-card.featured,
+      .project-card:nth-child(2),
+      .project-card:nth-child(3),
+      .project-card:nth-child(4) {
+        grid-column: span 12;
+      }
+
+      .project-card {
+        min-height: 390px;
+      }
+
+      .skills-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .nav {
+        width: min(calc(100% - 28px), var(--ContentWidth));
+      }
+
+      .nav-toggle {
+        display: grid;
+        place-items: center;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 68px;
+        right: 14px;
+        left: 14px;
+        padding: 12px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        background: rgba(251, 252, 251, 0.98);
+        border: 1px solid var(--Line);
+        border-radius: 18px;
+        box-shadow: var(--Shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .nav-links.is-open {
+        display: flex;
+      }
+
+      .nav-links a {
+        justify-content: center;
+      }
+
+      .section,
+      .contact-shell {
+        width: min(calc(100% - 28px), var(--ContentWidth));
+      }
+
+      .section {
+        padding: 88px 0;
+      }
+
+      .hero {
+        padding-top: 56px;
+      }
+
+      .hero h1 {
+        font-size: clamp(3.8rem, 19vw, 6.1rem);
+      }
+
+      .hero h1 span {
+        margin-top: 8px;
+        font-size: 0.31em;
+      }
+
+      .signal-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .signal-item {
+        min-height: 124px;
+        padding: 17px;
+      }
+
+      .project-meta {
+        margin-bottom: 34px;
+      }
+
+      .role {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .experience-wrap {
+        padding: 30px 22px;
+      }
+
+      .contact-shell {
+        margin-bottom: 14px;
+        border-radius: 26px;
+      }
+
+      .footer-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .signal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ACCESSIBILITY: Keyboard users can jump directly past navigation to #main. -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ======================================================================
+       SITE HEADER AND NAVIGATION
+       - The brand link returns to #top.
+       - Navigation links jump to matching section ids below.
+       - The mobile menu button is connected to #nav-links by aria-controls.
+       ====================================================================== -->
+  <header class="site-header" id="site-header">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Nolan Ford home">
+        <span class="brand-mark">NF</span>
+        <span>Nolan Ford</span>
+      </a>
+
+      <!-- JavaScript toggles this button and the .is-open class on #nav-links. -->
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 7h16M4 12h16M4 17h16"></path>
+        </svg>
+      </button>
+
+      <!-- PAGE JUMPS: Each #value must exactly match a section id below. -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="https://www.linkedin.com/in/nolan-ford-data-analyst" target="_blank" rel="noreferrer">LinkedIn</a></li>
+        <li><a class="nav-cta" href="mailto:Fordnola4211@gmail.com">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- ====================================================================
+         HERO SECTION
+         The first screen introduces Nolan and summarizes measurable impact.
+         ==================================================================== -->
+    <section class="section hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Information Systems · BYU · Class of 2028</p>
+        <h1 id="hero-title">
+          Nolan Ford
+          <span>Data, software, and business problem solving.</span>
+        </h1>
+        <p class="hero-intro">
+          I build practical systems that turn <strong>complex business needs</strong> into clearer decisions, useful tools, and measurable outcomes. My work spans analytics, software development, AI-assisted automation, and project implementation.
+        </p>
+
+        <!-- BUTTON CONNECTIONS:
+             #projects scrolls to the project grid.
+             mailto: opens a new message in the visitor's email application. -->
+        <div class="hero-actions">
+          <a class="button button-primary" href="#projects">
+            Explore my work
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </a>
+          <a class="button button-secondary" href="mailto:Fordnola4211@gmail.com">
+            Email me
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16v16H4z"></path>
+              <path d="m4 6 8 7 8-7"></path>
+            </svg>
+          </a>
+        </div>
+
+        <div class="hero-meta" aria-label="Current details">
+          <span>Provo, Utah</span>
+          <span>Graduating April 2028</span>
+          <span>Open to early-career opportunities</span>
+        </div>
+      </div>
+
+      <aside class="signal-card reveal" aria-label="Selected impact metrics">
+        <div class="signal-topline">
+          <span>Selected impact</span>
+          <span class="status">Building</span>
+        </div>
+        <div class="signal-grid">
+          <div class="signal-item">
+            <span class="signal-number">6K</span>
+            <span class="signal-label">graduates covered annually by the FDS framework beginning in 2027</span>
+          </div>
+          <div class="signal-item">
+            <span class="signal-number">15</span>
+            <span class="signal-label">career directors trained across the university</span>
+          </div>
+          <div class="signal-item">
+            <span class="signal-number">8</span>
+            <span class="signal-label">colleges supported through platform adoption</span>
+          </div>
+          <div class="signal-item">
+            <span class="signal-number">150+</span>
+            <span class="signal-label">volunteers supported through leadership operations</span>
+          </div>
+        </div>
+        <p class="signal-footer">Metrics from BYU Career Services and volunteer leadership.</p>
+      </aside>
+    </section>
+
+    <!-- ====================================================================
+         PROJECTS SECTION
+         Each article is one project card. Keep the same internal structure
+         when adding a new card so spacing and responsive behavior stay intact.
+         ==================================================================== -->
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="section-heading reveal">
+        <div>
+          <p class="section-kicker">Selected work</p>
+          <h2 class="section-title" id="projects-title">Projects with a purpose.</h2>
+        </div>
+        <p class="section-description">Each project starts with a real problem, pairs the right technical tools with the people who use them, and works toward an outcome that matters.</p>
+      </div>
+
+      <div class="projects">
+        <article class="project-card featured reveal">
+          <div class="project-meta">
+            <span class="project-number">Project 01</span>
+            <span class="project-status">Launching 2027</span>
+          </div>
+          <h3>BYU First Destination Survey</h3>
+          <p class="project-summary">Led the design and implementation of BYU's first near-real-time employment outcomes framework. I helped define reporting needs, shape survey methodology, validate response data, build executive dashboards, and train the people responsible for using the system.</p>
+          <div class="project-bottom">
+            <ul class="stack" aria-label="Technology stack">
+              <li>Tableau</li>
+              <li>R</li>
+              <li>Excel</li>
+              <li>Claude</li>
+              <li>Survey design</li>
+            </ul>
+            <span class="project-outcome">6,000 graduates annually beginning 2027</span>
+          </div>
+          <!-- EDIT: Add a public case-study or demo link here when approved for sharing. -->
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-meta">
+            <span class="project-number">Project 02</span>
+            <span class="project-status">Prototype</span>
+          </div>
+          <h3>AI Personal Assistant</h3>
+          <p class="project-summary">Built a local AI workflow assistant that connects language models with scheduling and information services. The project explores how thoughtful prompts and API integrations can reduce repetitive work without hiding the decision-making process.</p>
+          <div class="project-bottom">
+            <ul class="stack" aria-label="Technology stack">
+              <li>Python</li>
+              <li>Ollama</li>
+              <li>Qwen 3:8B</li>
+              <li>Google Calendar API</li>
+              <li>Weather API</li>
+            </ul>
+            <span class="project-outcome">Workflow automation</span>
+          </div>
+          <!-- EDIT: Add the AI assistant repository or demo link here when it is public. -->
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-meta">
+            <span class="project-number">Project 03</span>
+            <span class="project-status">In development</span>
+          </div>
+          <h3>Canvas Assignment Prioritizer</h3>
+          <p class="project-summary">A full-stack student productivity app that turns Canvas LMS assignment data into a prioritized to-do list. The application combines user, assignment, list, and prioritization data in a relational model while keeping the experience centered on the working product.</p>
+          <div class="project-bottom">
+            <ul class="stack" aria-label="Technology stack">
+              <li>JavaScript</li>
+              <li>Supabase</li>
+              <li>PostgreSQL</li>
+              <li>Canvas LMS</li>
+            </ul>
+            <span class="project-outcome">Student decision support</span>
+          </div>
+          <!-- EDIT: Add the Canvas app repository or live-demo link here when it is public. -->
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-meta">
+            <span class="project-number">Project 04</span>
+            <span class="project-status">In development</span>
+          </div>
+          <h3>Triathlon Training Planner</h3>
+          <p class="project-summary">A full-stack, AI-assisted web app for turning race goals, athlete availability, and training information into a more organized planning experience. The project connects a personal endurance goal with practical product design and application development.</p>
+          <div class="project-bottom">
+            <ul class="stack" aria-label="Project focus areas">
+              <li>Full-stack</li>
+              <li>AI-assisted planning</li>
+              <li>Training data</li>
+              <li>Product design</li>
+            </ul>
+            <span class="project-outcome">Athlete planning workflow</span>
+          </div>
+          <!-- EDIT: Add the triathlon app's exact technology stack, repository, and demo link when confirmed. -->
+        </article>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         EXPERIENCE SECTION
+         Each .role article contains a date, title, organization, and bullets.
+         ==================================================================== -->
+    <section class="section" id="experience" aria-labelledby="experience-title">
+      <div class="section-heading reveal">
+        <div>
+          <p class="section-kicker">Experience</p>
+          <h2 class="section-title" id="experience-title">From idea to adoption.</h2>
+        </div>
+        <p class="section-description">My strongest work sits between technical implementation and the people who rely on it.</p>
+      </div>
+
+      <div class="experience-wrap reveal">
+        <div class="timeline">
+          <article class="role">
+            <div class="role-date">Sep 2025 — Present</div>
+            <div>
+              <h3>Data Analyst</h3>
+              <span class="role-org">BYU Career Services · Provo, Utah</span>
+              <ul>
+                <li>Led the design and implementation of the university's First Destination Survey framework, serving approximately 6,000 graduating students annually beginning in 2027.</li>
+                <li>Designed survey methodology, validated response data, and developed executive Tableau dashboards for near-real-time employment insights.</li>
+                <li>Created documentation, instructional videos, and live demonstrations to train 15 career directors across eight colleges.</li>
+                <li>Partnered with university leadership to translate reporting requirements and operational questions into analytical solutions.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="role">
+            <div class="role-date">Feb 2025 — Sep 2025</div>
+            <div>
+              <h3>Facilities Manager</h3>
+              <span class="role-org">Missionary Training Center · Provo, Utah</span>
+              <ul>
+                <li>Used AI-assisted workflows and spreadsheet automation to streamline recurring administrative processes.</li>
+                <li>Coordinated daily work with a team of eight or more people in an environment with limited in-person interaction.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="role">
+            <div class="role-date">Sep 2022 — Oct 2024</div>
+            <div>
+              <h3>Volunteer Representative</h3>
+              <span class="role-org">The Church of Jesus Christ of Latter-day Saints · Chiapas, Mexico</span>
+              <ul>
+                <li>Built Excel and Google Forms reporting systems that reduced coordination and reporting time by two to three days.</li>
+                <li>Served on a four-person leadership team providing operational oversight, training, and support for more than 150 volunteers across Chiapas.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         ABOUT SECTION
+         Biography and education appear first; the skills panel is the <aside>.
+         ==================================================================== -->
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="about-grid">
+        <div class="about-copy reveal">
+          <p class="section-kicker">About</p>
+          <h2 id="about-title">I like the point where business context meets technical craft.</h2>
+          <p>I am an Information Systems student at Brigham Young University with experience in data analytics, system implementation, application development, and AI-assisted automation. I enjoy learning how a process works, finding the friction, and building a useful solution around the real need.</p>
+          <p>Database design, analytics, and programming are part of my toolkit—not narrow labels. The broader goal is to understand the problem, communicate clearly, and carry a solution from concept through rollout.</p>
+
+          <div class="education">
+            <strong>Brigham Young University · Marriott School of Business</strong>
+            <span>Bachelor of Science in Information Systems · Expected April 2028 · GPA 3.65</span>
+            <span>AI in Business Club · Coursework in Python, prompt engineering, R, and Excel</span>
+          </div>
+        </div>
+
+        <aside class="skills-panel reveal" aria-label="Skills and interests">
+          <h3>Working toolkit</h3>
+          <div class="skill-group">
+            <strong>Data and analytics</strong>
+            <p>Tableau · SQL · Python · R · Excel</p>
+          </div>
+          <div class="skill-group">
+            <strong>Applications</strong>
+            <p>JavaScript · PostgreSQL · Supabase · HTML · CSS · Git</p>
+          </div>
+          <div class="skill-group">
+            <strong>Automation and AI</strong>
+            <p>Power Automate · Prompt engineering · Ollama · API integration</p>
+          </div>
+          <div class="skill-group">
+            <strong>Language</strong>
+            <p>Spanish · Professional working proficiency</p>
+          </div>
+          <div class="skill-group">
+            <strong>Outside of work</strong>
+            <p>Running · Ironman training · Music · Hiking</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================================================================
+       CONTACT FOOTER
+       mailto: opens email, tel: starts a phone call when supported, and the
+       LinkedIn URL opens a new tab. GitHub and résumé placeholders stay hidden
+       inside comments until their real links are ready.
+       ====================================================================== -->
+  <footer class="contact-shell" id="contact">
+    <div class="contact">
+      <div class="reveal">
+        <p class="section-kicker">Contact</p>
+        <h2>Let's build something useful.</h2>
+      </div>
+      <div class="contact-copy reveal">
+        <p>I am interested in early-career opportunities where I can connect business needs with data, software, and thoughtful execution.</p>
+        <div class="contact-links">
+          <a href="mailto:Fordnola4211@gmail.com">Fordnola4211@gmail.com <span aria-hidden="true">↗</span></a>
+          <a href="tel:+15206779178">(520) 677-9178 <span aria-hidden="true">↗</span></a>
+          <a href="https://www.linkedin.com/in/nolan-ford-data-analyst" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+
+          <!-- EDIT: Optional future GitHub link. This stays hidden until you remove the comment markers and replace YOUR-USERNAME.
+          <a href="https://github.com/YOUR-USERNAME" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+          -->
+
+          <!-- EDIT: Optional future résumé PDF link. Keep resume.pdf in the repository root, then remove the comment markers.
+          <a href="resume.pdf">Download résumé <span aria-hidden="true">↗</span></a>
+          -->
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-row">
+      <span>© <span id="year"></span> Nolan Ford</span>
+      <span>Built with HTML, CSS, and a little JavaScript.</span>
+    </div>
+  </footer>
+
+  <script>
+    /* ========================================================================
+       JAVASCRIPT MAP
+       1. PageElements stores the HTML connections used by the script.
+       2. UpdateHeaderStyle changes the sticky header after scrolling.
+       3. Mobile-navigation functions open and close the small-screen menu.
+       4. StartRevealEffects reveals sections as they enter the viewport.
+
+       Page-jump links such as href="#projects" do not need JavaScript. The
+       browser connects them directly to the matching id="projects" section.
+       ======================================================================== */
+
+    try {
+      /* HTML CONNECTIONS: Change these selectors only if the matching HTML
+         id or class changes. Keeping them together makes wiring easy to find. */
+      const PageElements = {
+        SiteHeader: document.querySelector('#site-header'),
+        NavigationToggle: document.querySelector('#nav-toggle'),
+        NavigationLinks: document.querySelector('#nav-links'),
+        CopyrightYear: document.querySelector('#year'),
+        RevealItems: [...document.querySelectorAll('.reveal')]
+      };
+
+      const MotionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const RevealSettings = { Threshold: 0.12 };
+
+      /* FOOTER FLOW: Always shows the current year without a manual update. */
+      function SetCopyrightYear() {
+        PageElements.CopyrightYear.textContent = new Date().getFullYear();
+      }
+
+      /* HEADER FLOW: Adds .is-scrolled after the page moves down 18 pixels. */
+      function UpdateHeaderStyle() {
+        const HasScrolled = window.scrollY > 18;
+        PageElements.SiteHeader.classList.toggle('is-scrolled', HasScrolled);
+      }
+
+      /* MOBILE NAVIGATION FLOW: One function owns the visual and accessible
+         state so the button label and menu never disagree. */
+      function SetMobileNavigationState(IsOpen) {
+        PageElements.NavigationLinks.classList.toggle('is-open', IsOpen);
+        PageElements.NavigationToggle.setAttribute('aria-expanded', String(IsOpen));
+        PageElements.NavigationToggle.setAttribute(
+          'aria-label',
+          IsOpen ? 'Close navigation' : 'Open navigation'
+        );
+      }
+
+      function ToggleMobileNavigation() {
+        const IsOpen = !PageElements.NavigationLinks.classList.contains('is-open');
+        SetMobileNavigationState(IsOpen);
+      }
+
+      function CloseMobileNavigationAfterSelection(Event) {
+        const SelectedLink = Event.target.closest('a');
+        if (SelectedLink) SetMobileNavigationState(false);
+      }
+
+      /* REVEAL FLOW: Reduced-motion users see content immediately. Everyone
+         else gets a one-time fade as each .reveal element enters the viewport. */
+      function ShowAllRevealItems() {
+        PageElements.RevealItems.forEach((Item) => Item.classList.add('is-visible'));
+      }
+
+      function StartRevealEffects() {
+        const SupportsRevealEffects = 'IntersectionObserver' in window;
+
+        if (MotionPreference.matches || !SupportsRevealEffects) {
+          ShowAllRevealItems();
+          return;
+        }
+
+        const RevealObserver = new IntersectionObserver((Entries) => {
+          Entries.forEach((Entry) => {
+            if (!Entry.isIntersecting) return;
+
+            Entry.target.classList.add('is-visible');
+            RevealObserver.unobserve(Entry.target);
+          });
+        }, { threshold: RevealSettings.Threshold });
+
+        PageElements.RevealItems.forEach((Item) => RevealObserver.observe(Item));
+      }
+
+      /* STARTUP FLOW: This is the only place where event connections are made. */
+      function InitializePortfolio() {
+        SetCopyrightYear();
+        UpdateHeaderStyle();
+        StartRevealEffects();
+
+        window.addEventListener('scroll', UpdateHeaderStyle, { passive: true });
+        PageElements.NavigationToggle.addEventListener('click', ToggleMobileNavigation);
+        PageElements.NavigationLinks.addEventListener('click', CloseMobileNavigationAfterSelection);
+      }
+
+      InitializePortfolio();
+    } catch (CaughtError) {
+      /* FAILURE SAFETY: Remove .js so CSS displays every section if an optional
+         enhancement fails. The portfolio remains readable without scripting. */
+      document.documentElement.classList.remove('js');
+      console.warn('Enhanced effects were disabled so all portfolio content remains visible.', CaughtError);
+    }
+  </script>
+</body>
+</html>
