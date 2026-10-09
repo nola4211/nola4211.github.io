@@ -204,6 +204,15 @@
       letter-spacing: 0;
     }
 
+    .image-link {
+      display: inline-block;          /* Spans need a block display to take width/height */
+      background-image: url('Images/Profile.jpeg');
+      background-size: cover;
+      width: 75px;                   /* Must define dimensions */
+      height: 75px;
+    }
+
+
     .nav-links {
       display: flex;
       align-items: center;
@@ -1147,7 +1156,7 @@
   <header class="site-header" id="site-header">
     <nav class="nav" aria-label="Main navigation">
       <a class="brand" href="#top" aria-label="Nolan Ford home">
-        <span class="brand-mark">NF</span>
+        <span class="image-link"></span>
         <span>Nolan Ford</span>
       </a>
 
@@ -1412,7 +1421,7 @@
           <div class="education">
             <strong>Brigham Young University · Marriott School of Business</strong>
             <span>Bachelor of Science in Information Systems · Expected April 2028 · GPA 3.65</span>
-            <span>AI in Business Club · Coursework in Python, Java Script, Project Managment, Data Infrustructure, and Data Analysis</span>
+            <span>AI in Business Club · Coursework in Python, prompt engineering, R, and Excel</span>
           </div>
         </div>
 
@@ -1420,7 +1429,7 @@
           <h3>Working toolkit</h3>
           <div class="skill-group">
             <strong>Data and analytics</strong>
-            <p>Java Script · SQL · Python · Data Analysis · Project Managment</p>
+            <p>Tableau · SQL · Python · R · Excel</p>
           </div>
           <div class="skill-group">
             <strong>Applications</strong>
